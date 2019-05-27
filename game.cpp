@@ -107,3 +107,36 @@ void title()
     cout << "#=====================================================#" << endl;
     cout << "Jusu pasirinkimas >> ";
 }
+
+void display()
+{
+    system("cls");
+
+    for (int i = 0; i < 21; i++)  //nusakomas ekrano dydis
+    {
+        for (int j = 0; j < 12; j++) //nesu tikras kodel neveikia be STD::
+        {
+            switch (field[i][j])
+            {
+            case 0:
+                std::cout << " " << std::flush; //tustuma 
+                break;
+            case 9:
+                std::cout << "@" << std::flush; //remas
+                break;
+            default:
+                std::cout << "#" << std::flush; //tekstura
+                break;
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "\n\tA: Kaire\tS: Zemyn\tD: Desine \t Paversti[Space]";
+
+    if (gameover)
+    {
+        system("cls");
+        gameOver();
+    }
+}
