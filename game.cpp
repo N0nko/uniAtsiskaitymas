@@ -89,7 +89,7 @@ int gameOver()
     cout << " | |__| | (_| | | | | | |  __/ | |__| || V /  __/ |   " << endl;
     cout << " | _____||__,_|_| |_| |_||___| | ____/  |_/ |___|_|   " << endl;
     cout << "                                                      " << endl;
-    cout << "\n\nPress any key and enter\n";
+    cout << "\n\nSpauskite enter\n";
     cin >> a;
     return 0;
 }
