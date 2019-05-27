@@ -53,6 +53,15 @@ int menu();
 int gameOver();
 void title();
 void gameLoop();
+void display();
+bool makeBlocks();
+void launchGame();
+void moveBlock(int, int);
+void collidable();
+bool checkCollision(int, int);
+void updateInput();
+bool rotateBolck();
+void spwanBlock();
 
 int main()
 {
@@ -139,4 +148,57 @@ void display()
         system("cls");
         gameOver();
     }
+}
+
+void launchGame() //pre setupas, nustatomas zaidziamo lango dydis
+{
+    for (int i = 0; i <= 20; i++)
+    {
+        for (int j = 0; j <= 11; j++)
+        {
+            if ((j == 0) || (j == 11) || (i == 20))
+            {
+                field[i][j] = stage[i][j] = 9;
+            }
+            else
+            {
+                field[i][j] = stage[i][j] = 0;
+            }
+        }
+    }
+
+    makeBlocks();
+
+    display();
+}
+bool makeBlocks()
+{
+    x = 4;
+    y = 0;
+
+    int blockType = rand() % 6;
+    //formu paruosimas
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            block[i][j] = 0;
+            block[i][j] = block_list[blockType][i][j];
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            field[i][j + 4] = stage[i][j + 4] + block[i][j];
+
+            if (field[i][j + 4] > 1)
+            {
+                gameover = true;
+                return true;
+            }
+        }
+    }
+    return false;
 }
