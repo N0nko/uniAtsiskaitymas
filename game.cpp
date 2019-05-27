@@ -48,3 +48,38 @@ std::vector<std::vector<std::vector<int>>> block_list =
          {0, 1, 1, 0},
          {0, 0, 1, 0},
          {0, 0, 1, 0}}};
+
+int menu();
+int gameOver();
+void title();
+void gameLoop();
+
+int main()
+{
+    switch (menu())
+    {
+    case 1:
+        gameLoop();
+        break;
+    case 2:
+        return 0;
+    }
+    return 0;
+}
+
+int gameOver()
+{
+    using namespace std;
+
+    char a;
+    cout << "   _____                         ____                 " << endl;
+    cout << "  / ____|                       | __ |                " << endl;
+    cout << " | |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ " << endl;
+    cout << " | | |_ |/ _` | '_ ` _ | / _ | | |  | | | / / _ | '__|" << endl;
+    cout << " | |__| | (_| | | | | | |  __/ | |__| || V /  __/ |   " << endl;
+    cout << " | _____||__,_|_| |_| |_||___| | ____/  |_/ |___|_|   " << endl;
+    cout << "                                                      " << endl;
+    cout << "\n\nPress any key and enter\n";
+    cin >> a;
+    return 0;
+}
