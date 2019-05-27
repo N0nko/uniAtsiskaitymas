@@ -83,3 +83,27 @@ int gameOver()
     cin >> a;
     return 0;
 }
+
+void title()
+{
+    using namespace std;
+
+    system("cls");
+
+    cout << "#=====================================================#" << endl;
+
+    cout << "  _______   _        _     " << endl;
+    cout << " |__   __| | |      (_)    " << endl;
+    cout << "    | | ___| |_ _ __ _ ___ " << endl;
+    cout << "    | |/ _ | __| '__| / __|" << endl;
+    cout << "    | |  __/ |_| |  | |__ |" << endl;
+    cout << "    |_||___||__|_|  |_|___/" << endl;
+    cout << "                           " << endl;
+
+    cout << "\t<Meniu>" << endl;
+    cout << "\t1: Pradeti" << endl;
+    cout << "\t2: Iseiti" << endl;
+
+    cout << "#=====================================================#" << endl;
+    cout << "Jusu pasirinkimas >> ";
+}
