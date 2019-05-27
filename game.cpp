@@ -18,6 +18,7 @@ int y = 0;
 int x = 4;
 bool gameover = false;
 int GAMESPEED = 20000;
+
 std::vector<std::vector<std::vector<int>>> block_list =
     {
         {{0, 1, 0, 0},
@@ -91,6 +92,52 @@ int gameOver()
     cout << "\n\nPress any key and enter\n";
     cin >> a;
     return 0;
+}
+
+void gameLoop() //zaidimo variklis
+{
+    int time = 0;
+    launchGame();
+
+    while (!gameover)
+    {
+        if (kbhit())
+        {
+            updateInput();
+        }
+
+        if (time < GAMESPEED)
+        {
+            time++;
+        }
+        else
+        {
+            spwanBlock();
+            time = 0;
+        }
+    }
+}
+
+int menu()
+{
+    title();
+
+    int select_num = 0;
+
+    std::cin >> select_num;
+
+    switch (select_num)
+    {
+    case 1:
+    case 2:
+    case 3:
+        break;
+    default:
+        select_num = 0;
+        break;
+    }
+
+    return select_num;
 }
 
 void title()
@@ -171,6 +218,7 @@ void launchGame() //pre setupas, nustatomas zaidziamo lango dydis
 
     display();
 }
+
 bool makeBlocks()
 {
     x = 4;
@@ -201,4 +249,148 @@ bool makeBlocks()
         }
     }
     return false;
+}
+
+void moveBlock(int x2, int y2)
+{
+
+    //Formos pasalinimas
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            field[y + i][x + j] -= block[i][j];
+        }
+    }
+    //Koordinaciu atnaujinimas
+    x = x2;
+    y = y2;
+
+    //Priskirti nauja bloka kordinatem
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            field[y + i][x + j] += block[i][j];
+        }
+    }
+
+    display();
+}
+
+void collidable()
+{
+    for (int i = 0; i < 21; i++)
+    {
+        for (int j = 0; j < 12; j++)
+        {
+            stage[i][j] = field[i][j];
+        }
+    }
+}
+
+bool checkCollision(int x2, int y2)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (block[i][j] && stage[y2 + i][x2 + j] != 0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void updateInput()
+{
+    char key;
+
+    key = getch();
+
+    switch (key)
+    {
+    case 'd':
+        if (!checkCollision(x + 1, y))
+        {
+            moveBlock(x + 1, y);
+        }
+        break;
+    case 'a':
+        if (!checkCollision(x - 1, y))
+        {
+            moveBlock(x - 1, y);
+        }
+        break;
+    case 's':
+        if (!checkCollision(x, y + 1))
+        {
+            moveBlock(x, y + 1);
+        }
+        break;
+    case ' ':
+        rotateBolck();
+    }
+}
+
+bool rotateBolck()
+{
+    std::vector<std::vector<int>> tmp(4, std::vector<int>(4, 0));
+
+    for (int i = 0; i < 4; i++)
+    { //Trumpalaikis formos issaugojimas
+        for (int j = 0; j < 4; j++)
+        {
+            tmp[i][j] = block[i][j];
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    { //Pasukimas
+        for (int j = 0; j < 4; j++)
+        {
+            block[i][j] = tmp[3 - j][i];
+        }
+    }
+
+    if (checkCollision(x, y))
+    { // stop jeigu uzdengia kita forma
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                block[i][j] = tmp[i][j];
+            }
+        }
+        return true;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            field[y + i][x + j] -= tmp[i][j];
+            field[y + i][x + j] += block[i][j];
+        }
+    }
+
+    display();
+
+    return false;
+}
+
+void spwanBlock()
+{
+    if (!checkCollision(x, y + 1))
+    {
+        moveBlock(x, y + 1);
+    }
+    else
+    {
+        collidable();
+        makeBlocks();
+        display();
+    }
 }
